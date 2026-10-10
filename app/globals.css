@@ -1,49 +1,522 @@
+
+/* =========================================
+   GLOBAL STYLES & COLOR THEME
+========================================= */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --slate: #283b48;
+  --dusty-blue: #586b79;
+  --rose: #a48e98;
+  --lavender: #b49ac9;
+  --mist: #e6dde1;
+  --text: #283b48;
+  --muted: #657480;
+  --border: rgba(95, 104, 119, 0.23);
+  --glass: rgba(238, 231, 235, 0.64);
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  background: #283b48;
 }
 
 a {
-  color: inherit;
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* =========================================
+   ANIMATED BACKGROUND
+========================================= */
+
+.video-background {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+/* Subtle dark tint over the video */
+
+.background-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 30, 40, 0.12);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.site-content {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+/* =========================================
+   NAVIGATION BAR
+========================================= */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+  background: rgba(230, 221, 225, 0.70);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+  box-shadow: 0 3px 15px rgba(24, 35, 47, 0.10);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--slate);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: var(--dusty-blue);
+  font-weight: 600;
+  padding-bottom: 5px;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links .active {
+  color: #67507d;
+  border-bottom: 2px solid #8c739f;
+}
+
+/* =========================================
+   HOME PAGE
+========================================= */
+
+.home-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  padding: 25px;
+}
+
+.home-card {
+  width: 100%;
+  max-width: 650px;
+  padding: 60px 45px;
+  text-align: center;
+
+  /* Semi-transparent frosted glass */
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.40);
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(20, 32, 43, 0.20);
+}
+
+.home-icon {
+  font-size: 50px;
+  color: #80659c;
+  margin-bottom: 20px;
+}
+
+.home-card h1 {
+  font-size: 34px;
+  color: var(--slate);
+  margin-bottom: 20px;
+}
+
+.home-card p {
+  color: #465967;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+/* =========================================
+   MAIN BUTTON
+========================================= */
+
+.primary-btn,
+.add-btn {
+  display: inline-block;
+  background: #76618c;
+  color: #ffffff;
+  padding: 14px 27px;
+  border: none;
+  border-radius: 9px;
+  font-weight: bold;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.primary-btn:hover,
+.add-btn:hover {
+  background: #5c4b70;
+  transform: translateY(-2px);
+}
+
+/* =========================================
+   TASKS PAGE
+========================================= */
+
+.tasks-container {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.tasks-card {
+  width: 100%;
+  max-width: 850px;
+  padding: 35px;
+
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.40);
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(20, 32, 43, 0.20);
+}
+
+.section-heading h1 {
+  font-size: 30px;
+  color: var(--slate);
+  margin-bottom: 10px;
+}
+
+.section-heading p {
+  color: #4d606c;
+  margin-bottom: 30px;
+}
+
+/* =========================================
+   TASK INPUT
+========================================= */
+
+.task-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.task-form input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: rgba(255,255,255,0.60);
+  color: var(--slate);
+  font-size: 16px;
+}
+
+.task-form input::placeholder {
+  color: #697985;
+}
+
+.task-form input:focus {
+  outline: none;
+  border-color: #8c739f;
+  box-shadow: 0 0 0 3px rgba(180,154,201,0.20);
+}
+
+/* =========================================
+   STATISTICS CARDS
+========================================= */
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 35px;
+}
+
+.stat-box {
+  background: rgba(201, 198, 215, 0.48);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-box h3 {
+  color: #65517d;
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.stat-box p {
+  font-size: 13px;
+  color: #485d69;
+}
+
+/* =========================================
+   FILTER BUTTONS
+========================================= */
+
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.list-header h2 {
+  font-size: 20px;
+  color: var(--slate);
+}
+
+.filter-container {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 9px 13px;
+  border: 1px solid rgba(105, 96, 118, 0.25);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.45);
+  color: var(--slate);
+  transition: background 0.2s;
+}
+
+.filter-btn:hover {
+  background: rgba(180,154,201,0.35);
+}
+
+.filter-btn.selected {
+  background: #76618c;
+  border-color: #76618c;
+  color: white;
+}
+
+/* =========================================
+   TASK LIST
+========================================= */
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+
+  background: rgba(255,255,255,0.38);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.task-item:hover {
+  background: rgba(255,255,255,0.58);
+}
+
+.task-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.task-label input {
+  width: 18px;
+  height: 18px;
+  accent-color: #80659c;
+  flex-shrink: 0;
+}
+
+.task-item.completed {
+  background: rgba(192, 207, 202, 0.45);
+}
+
+.task-item.completed .task-label span {
+  text-decoration: line-through;
+  color: #72818a;
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.selected-indicator {
+  color: #356f5c;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.delete-btn {
+  background: rgba(171, 104, 114, 0.18);
+  color: #854853;
+  border: 1px solid rgba(171,104,114,0.22);
+  padding: 9px 13px;
+  border-radius: 7px;
+}
+
+.delete-btn:hover {
+  background: rgba(171, 104, 114, 0.34);
+}
+
+/* =========================================
+   EMPTY AND SUCCESS MESSAGES
+========================================= */
+
+.empty-message {
+  text-align: center;
+  padding: 50px 20px;
+  background: rgba(255,255,255,0.30);
+  border: 1px dashed rgba(100,110,120,0.30);
+  border-radius: 12px;
+  color: #586b79;
+}
+
+.empty-message span {
+  font-size: 35px;
+}
+
+.empty-message h3 {
+  margin: 15px 0 8px;
+  color: var(--slate);
+}
+
+.success-message {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(175, 210, 188, 0.55);
+  color: #285c49;
+  border-radius: 9px;
+  text-align: center;
+}
+
+/* =========================================
+   ABOUT PAGE
+========================================= */
+
+.about-container {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.about-card {
+  width: 100%;
+  max-width: 750px;
+  padding: 40px;
+
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255,255,255,0.40);
+  border-radius: 18px;
+  box-shadow: 0 14px 40px rgba(20, 32, 43, 0.20);
+}
+
+.about-card h1 {
+  font-size: 30px;
+  color: var(--slate);
+  margin-bottom: 20px;
+}
+
+.about-card h2 {
+  margin-top: 25px;
+  margin-bottom: 12px;
+  color: #76618c;
+}
+
+.about-card p {
+  color: #465967;
+  line-height: 1.8;
+}
+
+.about-card ul {
+  padding-left: 25px;
+  line-height: 2;
+  color: #465967;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .nav-links {
+    gap: 18px;
+  }
+
+  .home-card,
+  .tasks-card,
+  .about-card {
+    padding: 25px 20px;
+  }
+
+  .home-card h1 {
+    font-size: 26px;
+  }
+
+  .task-form {
+    flex-direction: column;
+  }
+
+  .stats-container {
+    gap: 8px;
+  }
+
+  .stat-box {
+    padding: 15px 5px;
+  }
+
+  .task-item {
+    align-items: flex-start;
+  }
+
+  .task-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .filter-container {
+    flex-wrap: wrap;
   }
 }
